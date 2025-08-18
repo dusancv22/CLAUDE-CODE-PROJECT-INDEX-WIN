@@ -19,9 +19,15 @@ __version__ = "0.1.0"
 import json
 import os
 import re
+import sys
+import platform
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Set UTF-8 encoding for Windows console
+if platform.system() == "Windows":
+    sys.stdout.reconfigure(encoding='utf-8')
 
 # Import shared utilities
 from index_utils import (
@@ -53,7 +59,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
         """Recursively build tree structure."""
         if depth > max_depth:
             if any(should_include_dir(p) for p in path.iterdir() if p.is_dir()):
-                tree_lines.append(prefix + "└── ...")
+                tree_lines.append(prefix + "+-- ...")
             return
         
         try:
@@ -78,7 +84,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
         
         for i, item in enumerate(all_items):
             is_last = i == len(all_items) - 1
-            current_prefix = "└── " if is_last else "├── "
+            current_prefix = "+-- " if is_last else "+-- "
             
             name = item.name
             if item.is_dir():
@@ -94,7 +100,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
             tree_lines.append(prefix + current_prefix + name)
             
             if item.is_dir():
-                next_prefix = prefix + ("    " if is_last else "│   ")
+                next_prefix = prefix + ("    " if is_last else "|   ")
                 add_tree_level(item, next_prefix, depth + 1)
     
     # Start with root
@@ -131,7 +137,7 @@ def build_index(root_dir: str) -> Tuple[Dict, int]:
     }
     
     # Generate directory tree
-    print("📊 Building directory tree...")
+    print("[INFO] Building directory tree...")
     index['project_structure']['tree'] = generate_tree_structure(root)
     
     file_count = 0
@@ -140,10 +146,10 @@ def build_index(root_dir: str) -> Tuple[Dict, int]:
     directory_files = {}  # Track files per directory
     
     # Walk the directory tree
-    print("🔍 Indexing files...")
+    print("[INFO] Indexing files...")
     for file_path in root.rglob('*'):
         if file_count >= MAX_FILES:
-            print(f"⚠️  Stopping at {MAX_FILES} files (project too large)")
+            print(f"[WARNING] Stopping at {MAX_FILES} files (project too large)")
             break
             
         if file_path.is_dir():
@@ -233,7 +239,7 @@ def build_index(root_dir: str) -> Tuple[Dict, int]:
             print(f"  Indexed {file_count} files...")
     
     # Infer directory purposes
-    print("🏗️  Analyzing directory purposes...")
+    print("[INFO] Analyzing directory purposes...")
     for dir_path, files in directory_files.items():
         if files:  # Only process directories with files
             purpose = infer_directory_purpose(dir_path, files)
@@ -246,7 +252,7 @@ def build_index(root_dir: str) -> Tuple[Dict, int]:
     index['stats']['total_directories'] = dir_count
     
     # Build dependency graph
-    print("🔗 Building dependency graph...")
+    print("[INFO] Building dependency graph...")
     dependency_graph = {}
     
     for file_path, file_info in index['files'].items():
@@ -293,7 +299,7 @@ def build_index(root_dir: str) -> Tuple[Dict, int]:
         index['dependency_graph'] = dependency_graph
     
     # Build bidirectional call graph
-    print("📞 Building call graph...")
+    print("[INFO] Building call graph...")
     call_graph = {}
     called_by_graph = {}
     
@@ -383,7 +389,7 @@ def compress_index_if_needed(index: Dict) -> Dict:
     if len(index_json) <= MAX_INDEX_SIZE:
         return index
     
-    print(f"⚠️  Index too large ({len(index_json)} bytes), compressing...")
+    print(f"[WARNING] Index too large ({len(index_json)} bytes), compressing...")
     
     # First, reduce tree depth
     if len(index['project_structure']['tree']) > 100:
@@ -407,43 +413,43 @@ def print_summary(index: Dict, skipped_count: int):
     
     # Add warning if no files were found
     if stats['total_files'] == 0:
-        print("\n⚠️  WARNING: No files were indexed!")
+        print("\n[WARNING] No files were indexed!")
         print("   This might mean:")
-        print("   • You're in the wrong directory")
-        print("   • All files are being ignored (check .gitignore)")
-        print("   • The project has no supported file types")
+        print("   - You're in the wrong directory")
+        print("   - All files are being ignored (check .gitignore)")
+        print("   - The project has no supported file types")
         print(f"\n   Current directory: {os.getcwd()}")
         print("   Try running from your project root directory.")
         return
     
-    print(f"\n📊 Project Analysis Complete:")
-    print(f"   📁 {stats['total_directories']} directories indexed")
-    print(f"   📄 {stats['total_files']} code files found")
-    print(f"   📝 {stats['markdown_files']} documentation files analyzed")
+    print(f"\n[INFO] Project Analysis Complete:")
+    print(f"   [DIR] {stats['total_directories']} directories indexed")
+    print(f"   [FILE] {stats['total_files']} code files found")
+    print(f"   [DOCS] {stats['markdown_files']} documentation files analyzed")
     
     # Show fully parsed languages
     if stats['fully_parsed']:
-        print("\n✅ Languages with full parsing:")
+        print("\n[OK] Languages with full parsing:")
         for lang, count in sorted(stats['fully_parsed'].items()):
-            print(f"   • {count} {lang.capitalize()} files (with signatures)")
+            print(f"   - {count} {lang.capitalize()} files (with signatures)")
     
     # Show listed-only languages
     if stats['listed_only']:
-        print("\n📋 Languages listed only:")
+        print("\n[INFO] Languages listed only:")
         for lang, count in sorted(stats['listed_only'].items()):
-            print(f"   • {count} {lang.capitalize()} files")
+            print(f"   - {count} {lang.capitalize()} files")
     
     # Show documentation insights
     if index['documentation_map']:
-        print(f"\n📚 Documentation insights:")
+        print(f"\n[INFO] Documentation insights:")
         for doc_file, info in list(index['documentation_map'].items())[:3]:
-            print(f"   • {doc_file}: {len(info['sections'])} sections")
+            print(f"   - {doc_file}: {len(info['sections'])} sections")
     
     # Show directory purposes
     if index['directory_purposes']:
-        print(f"\n🏗️  Directory structure:")
+        print(f"\n[INFO] Directory structure:")
         for dir_path, purpose in list(index['directory_purposes'].items())[:5]:
-            print(f"   • {dir_path}/: {purpose}")
+            print(f"   - {dir_path}/: {purpose}")
     
     if skipped_count > 0:
         print(f"\n   (Skipped {skipped_count} files in ignored directories)")
@@ -451,7 +457,7 @@ def print_summary(index: Dict, skipped_count: int):
 
 def main():
     """Run the enhanced indexer."""
-    print("🚀 Building Project Index...")
+    print("[INFO] Building Project Index...")
     print("   Analyzing project structure and documentation...")
     
     # Build index for current directory
@@ -467,15 +473,15 @@ def main():
     # Print summary
     print_summary(index, skipped_count)
     
-    print(f"\n💾 Saved to: {output_path}")
-    print("\n✨ Claude now has architectural awareness of your project!")
-    print("   • Knows WHERE to place new code")
-    print("   • Understands project structure")
-    print("   • Can navigate documentation")
-    print("\n📌 Benefits:")
-    print("   • Prevents code duplication")
-    print("   • Ensures proper file placement")
-    print("   • Maintains architectural consistency")
+    print(f"\n[SAVED] Index saved to: {output_path}")
+    print("\n[SUCCESS] Claude now has architectural awareness of your project!")
+    print("   - Knows WHERE to place new code")
+    print("   - Understands project structure")
+    print("   - Can navigate documentation")
+    print("\n[INFO] Benefits:")
+    print("   - Prevents code duplication")
+    print("   - Ensures proper file placement")
+    print("   - Maintains architectural consistency")
 
 
 if __name__ == '__main__':

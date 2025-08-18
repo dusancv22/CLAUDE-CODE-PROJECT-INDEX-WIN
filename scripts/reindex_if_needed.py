@@ -245,7 +245,7 @@ def main():
     if needs_reindex:
         if run_reindex(project_root):
             output = {"suppressOutput": False}
-            print(f"♻️  Reindexed project: {reason}")
+            print(f"[REINDEXED] Project reindexed: {reason}")
             sys.stdout.write(json.dumps(output) + '\n')
         else:
             print(f"Failed to reindex: {reason}", file=sys.stderr)
