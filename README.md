@@ -10,7 +10,7 @@
 
 ```cmd
 # Clone this repository
-git clone https://github.com/YOUR_USERNAME/CLAUDE-CODE-PROJECT-INDEX-WIN.git
+git clone https://github.com/dusancv22/CLAUDE-CODE-PROJECT-INDEX-WIN.git
 cd CLAUDE-CODE-PROJECT-INDEX-WIN
 
 # Run the installer
@@ -174,7 +174,7 @@ MIT License - See LICENSE file
 ## 🙏 Credits
 
 - **Original Project**: [claude-code-project-index](https://github.com/ericbuess/claude-code-project-index) by [Eric Buess](https://github.com/ericbuess)
-- **Windows Version**: Optimized for Windows by [Your Name]
+- **Windows Version**: Optimized for Windows by Dusan Cvjetkovic
 
 ## 📚 Related Projects
 
