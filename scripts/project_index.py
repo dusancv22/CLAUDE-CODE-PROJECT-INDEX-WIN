@@ -59,7 +59,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
         """Recursively build tree structure."""
         if depth > max_depth:
             if any(should_include_dir(p) for p in path.iterdir() if p.is_dir()):
-                tree_lines.append(prefix + "+-- ...")
+                tree_lines.append(prefix + "`-- ...")
             return
         
         try:
@@ -84,7 +84,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
         
         for i, item in enumerate(all_items):
             is_last = i == len(all_items) - 1
-            current_prefix = "+-- " if is_last else "+-- "
+            current_prefix = "`-- " if is_last else "|-- "
             
             name = item.name
             if item.is_dir():
