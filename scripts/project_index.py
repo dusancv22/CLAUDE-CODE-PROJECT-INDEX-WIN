@@ -84,8 +84,7 @@ def generate_tree_structure(root_path: Path, max_depth: int = MAX_TREE_DEPTH) ->
         
         for i, item in enumerate(all_items):
             is_last = i == len(all_items) - 1
-            current_prefix = "`-- " if is_last else "|-- "
-            
+            current_prefix = "`-- " if is_last else "+-- "            
             name = item.name
             if item.is_dir():
                 name += "/"

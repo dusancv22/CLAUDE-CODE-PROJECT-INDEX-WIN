@@ -1,13 +1,13 @@
 {
-  "indexed_at": "2025-08-18T23:15:28.969200",
+  "indexed_at": "2025-08-19T14:05:15.492740",
   "root": ".",
   "project_structure": {
     "type": "tree",
     "root": ".",
     "tree": [
       ".",
-      "\u251c\u2500\u2500 scripts/ (9 files)",
-      "\u2514\u2500\u2500 README.md"
+      "+-- scripts/ (6 files)",
+      "+-- README.md"
     ]
   },
   "documentation_map": {
@@ -40,78 +40,96 @@
         "\ud83d\udcda Language Support"
       ],
       "architecture_hints": []
-    },
-    "WINDOWS_SETUP.md": {
-      "sections": [
-        "Windows Setup Guide for PROJECT_INDEX",
-        "Prerequisites",
-        "Installation",
-        "Quick Install",
-        "Navigate to the project directory",
-        "Run the Python installer",
-        "Verify Installation",
-        "Run the test suite",
-        "Usage",
-        "Creating an Index"
-      ],
-      "architecture_hints": []
     }
   },
   "directory_purposes": {
     "scripts": "Build and utility scripts"
   },
   "stats": {
-    "total_files": 14,
+    "total_files": 9,
     "total_directories": 2,
     "fully_parsed": {
-      "python": 8,
-      "shell": 1
+      "python": 8
     },
     "listed_only": {
-      "shell": 4,
       "json": 1
     },
-    "markdown_files": 7
+    "markdown_files": 2
   },
   "files": {
     "install.py": {
       "language": "python",
       "parsed": true,
+      "imports": [
+        "os",
+        "sys",
+        "json",
+        "shutil",
+        "subprocess",
+        "pathlib",
+        "argparse",
+        "uninstall"
+      ],
       "functions": {
         "print_header": {
           "doc": "Print installation header",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main",
+            "main"
+          ]
         },
         "find_python": {
           "doc": "Find the best Python interpreter to use on Windows",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         },
         "check_dependencies": {
           "doc": "Check for optional dependencies",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         },
         "backup_settings": {
           "doc": "Create a backup of settings.json",
-          "signature": "(settings_file)"
+          "signature": "(settings_file)",
+          "called_by": [
+            "update_hooks"
+          ]
         },
         "update_hooks": {
           "doc": "Update hooks in settings.json for Windows",
           "calls": [
             "backup_settings"
           ],
-          "signature": "(settings_file, install_dir)"
+          "signature": "(settings_file, install_dir)",
+          "called_by": [
+            "main"
+          ]
         },
         "create_index_command": {
           "doc": "Create the /index command for Windows",
-          "signature": "(python_cmd)"
+          "signature": "(python_cmd)",
+          "called_by": [
+            "main"
+          ]
         },
         "install_from_local": {
           "doc": "Install from local repository",
-          "signature": "(source_dir, install_dir)"
+          "signature": "(source_dir, install_dir)",
+          "called_by": [
+            "main"
+          ]
         },
         "test_installation": {
           "doc": "Test the installation",
-          "signature": "(python_cmd)"
+          "signature": "(python_cmd)",
+          "called_by": [
+            "main"
+          ]
         },
         "main": {
           "doc": "Main installation process",
@@ -125,36 +143,58 @@
             "test_installation",
             "update_hooks"
           ],
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         }
       },
       "classes": {},
-      "updated_by_hook": true,
-      "updated_at": "2025-08-19T00:03:12.623965"
-    },
-    "install.sh": {
-      "language": "shell",
-      "parsed": false
+      "constants": {
+        "VERSION": "str",
+        "INSTALL_DIR": "value"
+      },
+      "call_graph": {}
     },
     "uninstall.py": {
       "language": "python",
       "parsed": true,
+      "imports": [
+        "os",
+        "sys",
+        "json",
+        "shutil",
+        "pathlib"
+      ],
       "functions": {
         "print_header": {
           "doc": "Print uninstallation header",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main",
+            "main"
+          ]
         },
         "remove_hooks": {
           "doc": "Remove PROJECT_INDEX hooks from settings.json",
-          "signature": "(settings_file)"
+          "signature": "(settings_file)",
+          "called_by": [
+            "main"
+          ]
         },
         "remove_command": {
           "doc": "Remove the /index command",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         },
         "remove_installation": {
           "doc": "Remove the installation directory",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         },
         "main": {
           "doc": "Main uninstallation process",
@@ -164,16 +204,17 @@
             "remove_hooks",
             "remove_installation"
           ],
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         }
       },
       "classes": {},
-      "updated_by_hook": true,
-      "updated_at": "2025-08-19T00:04:10.535551"
-    },
-    "uninstall.sh": {
-      "language": "shell",
-      "parsed": false
+      "constants": {
+        "INSTALL_DIR": "value"
+      },
+      "call_graph": {}
     },
     ".claude\\settings.local.json": {
       "language": "json",
@@ -208,19 +249,6 @@
         "check_git_changes": "(project_root)"
       },
       "classes": {},
-      "call_graph": {}
-    },
-    "scripts\\find_python.sh": {
-      "language": "shell",
-      "parsed": true,
-      "functions": {
-        "find_python": {
-          "signature": "()",
-          "called_by": [
-            "main"
-          ]
-        }
-      },
       "call_graph": {}
     },
     "scripts\\index_utils.py": {
@@ -339,14 +367,21 @@
       },
       "call_graph": {}
     },
-    "scripts\\project-index-helper.sh": {
-      "language": "shell",
-      "parsed": false,
-      "purpose": "Utility functions"
-    },
     "scripts\\project_index.py": {
       "language": "python",
       "parsed": true,
+      "imports": [
+        "json",
+        "os",
+        "re",
+        "sys",
+        "platform",
+        "datetime",
+        "pathlib",
+        "typing",
+        "index_utils",
+        "sys"
+      ],
       "functions": {
         "generate_tree_structure": {
           "doc": "Generate a compact ASCII tree representation of the directory structure.",
@@ -354,22 +389,34 @@
             "add_tree_level",
             "should_include_dir"
           ],
-          "signature": "(root_path: Path, max_depth: int = MAX_TREE_DEPTH) -> List[str]"
+          "signature": "(root_path: Path, max_depth: int = MAX_TREE_DEPTH) -> List[str]",
+          "called_by": [
+            "build_index"
+          ]
         },
         "build_index": {
           "doc": "Build the enhanced index with architectural awareness.",
           "calls": [
             "generate_tree_structure"
           ],
-          "signature": "(root_dir: str) -> Tuple[Dict, int]"
+          "signature": "(root_dir: str) -> Tuple[Dict, int]",
+          "called_by": [
+            "main"
+          ]
         },
         "compress_index_if_needed": {
           "doc": "Compress index if it exceeds size limit.",
-          "signature": "(index: Dict) -> Dict"
+          "signature": "(index: Dict) -> Dict",
+          "called_by": [
+            "main"
+          ]
         },
         "print_summary": {
           "doc": "Print a helpful summary of what was indexed.",
-          "signature": "(index: Dict, skipped_count: int)"
+          "signature": "(index: Dict, skipped_count: int)",
+          "called_by": [
+            "main"
+          ]
         },
         "main": {
           "doc": "Run the enhanced indexer.",
@@ -378,54 +425,95 @@
             "compress_index_if_needed",
             "print_summary"
           ],
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         }
       },
       "classes": {},
-      "updated_by_hook": true,
-      "updated_at": "2025-08-18T23:36:21.343910"
+      "constants": {
+        "MAX_FILES": "number",
+        "MAX_INDEX_SIZE": "value",
+        "MAX_TREE_DEPTH": "number"
+      },
+      "call_graph": {}
     },
     "scripts\\project_index_helper.py": {
       "language": "python",
       "parsed": true,
+      "purpose": "Utility functions",
+      "imports": [
+        "sys",
+        "subprocess",
+        "pathlib",
+        "os"
+      ],
       "functions": {
         "main": {
           "doc": "Execute the project_index.py script",
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         }
       },
       "classes": {},
-      "updated_by_hook": true,
-      "updated_at": "2025-08-18T23:31:23.138594",
-      "purpose": "Utility functions"
+      "call_graph": {}
     },
     "scripts\\reindex_if_needed.py": {
       "language": "python",
       "parsed": true,
+      "imports": [
+        "json",
+        "sys",
+        "os",
+        "subprocess",
+        "pathlib",
+        "datetime"
+      ],
       "functions": {
         "check_index_features": {
           "doc": "Check if index has all required features.",
-          "signature": "(index_path)"
+          "signature": "(index_path)",
+          "called_by": [
+            "main"
+          ]
         },
         "check_index_staleness": {
           "doc": "Check if index is older than threshold.",
-          "signature": "(index_path, threshold_hours=24)"
+          "signature": "(index_path, threshold_hours=24)",
+          "called_by": [
+            "main"
+          ]
         },
         "check_missing_documentation": {
           "doc": "Check if important documentation files are missing from index.",
-          "signature": "(index_path, project_root)"
+          "signature": "(index_path, project_root)",
+          "called_by": [
+            "main"
+          ]
         },
         "check_structural_changes": {
           "doc": "Check if directory structure has significantly changed.",
-          "signature": "(index_path, project_root)"
+          "signature": "(index_path, project_root)",
+          "called_by": [
+            "main"
+          ]
         },
         "count_hook_updates": {
           "doc": "Count how many files were updated by hooks vs full index.",
-          "signature": "(index_path)"
+          "signature": "(index_path)",
+          "called_by": [
+            "main"
+          ]
         },
         "run_reindex": {
           "doc": "Run the project_index.py script to perform full reindex.",
-          "signature": "(project_root)"
+          "signature": "(project_root)",
+          "called_by": [
+            "main"
+          ]
         },
         "main": {
           "doc": "Main hook entry point.",
@@ -437,16 +525,14 @@
             "count_hook_updates",
             "run_reindex"
           ],
-          "signature": "()"
+          "signature": "()",
+          "called_by": [
+            "main"
+          ]
         }
       },
       "classes": {},
-      "updated_by_hook": true,
-      "updated_at": "2025-08-18T23:43:31.287392"
-    },
-    "scripts\\run_python.sh": {
-      "language": "shell",
-      "parsed": false
+      "call_graph": {}
     },
     "scripts\\update_index.py": {
       "language": "python",
@@ -492,14 +578,10 @@
       "sys",
       "json",
       "shutil",
-      "platform",
       "subprocess",
       "pathlib",
       "argparse",
-      "uninstall",
-      "sys",
-      "subprocess",
-      "pathlib"
+      "uninstall"
     ],
     "uninstall.py": [
       "os",
@@ -537,7 +619,8 @@
     "scripts\\project_index_helper.py": [
       "sys",
       "subprocess",
-      "pathlib"
+      "pathlib",
+      "os"
     ],
     "scripts\\reindex_if_needed.py": [
       "json",
@@ -556,5 +639,5 @@
       "index_utils"
     ]
   },
-  "staleness_check": 1754946929.037381
+  "staleness_check": 1755000315.576728
 }

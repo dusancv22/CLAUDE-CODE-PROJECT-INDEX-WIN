@@ -174,7 +174,7 @@ MIT License - See LICENSE file
 ## 🙏 Credits
 
 - **Original Project**: [claude-code-project-index](https://github.com/ericbuess/claude-code-project-index) by [Eric Buess](https://github.com/ericbuess)
-- **Windows Version**: Optimized for Windows by Dusan Cvjetkovic
+- **Windows Version**: Optimized for Windows by Dusan Cvetkovic
 
 ## 📚 Related Projects
 
